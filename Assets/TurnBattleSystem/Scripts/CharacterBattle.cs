@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CodeMonkey.Utils;
+using CodeMonkey.Utils;     // wtf is this??? in Assets/_/Stuff/CodeMonkey/Utils
 
 // what this script do? Responsible for all the ANIMATION crap of the characters.
 
@@ -91,7 +91,9 @@ public class CharacterBattle : MonoBehaviour {
         healthSystem.Damage(damageAmount);
         Vector3 dirFromAttacker = (GetPosition() - attacker.GetPosition()).normalized;
 
-        DamagePopup.Create(GetPosition(), damageAmount, false);
+        // How is this accessed???
+        // displays damage amount on hit:
+        DamagePopup.Create(GetPosition(), damageAmount, true);
         characterBase.SetColorTint(new Color(1, 0, 0, 1f));
         Blood_Handler.SpawnBlood(GetPosition(), dirFromAttacker);
 

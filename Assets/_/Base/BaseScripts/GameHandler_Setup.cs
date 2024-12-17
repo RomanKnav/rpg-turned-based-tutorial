@@ -6,6 +6,7 @@ using CodeMonkey.Utils;
 using CodeMonkey.MonoBehaviours;
 using GridPathfindingSystem;
 
+// THIS IS FOR A WHOLE ASS SEPERATE GAME:
 public class GameHandler_Setup : MonoBehaviour {
 
     public static GridPathfinding gridPathfinding;
