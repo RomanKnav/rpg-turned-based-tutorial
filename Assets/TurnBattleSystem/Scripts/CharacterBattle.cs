@@ -91,9 +91,6 @@ public class CharacterBattle : MonoBehaviour {
         healthSystem.Damage(damageAmount);
         Vector3 dirFromAttacker = (GetPosition() - attacker.GetPosition()).normalized;
 
-        // How is this accessed???
-        // displays damage amount on hit:
-        DamagePopup.Create(GetPosition(), damageAmount, true);
         characterBase.SetColorTint(new Color(1, 0, 0, 1f));
         Blood_Handler.SpawnBlood(GetPosition(), dirFromAttacker);
 
