@@ -1,21 +1,13 @@
-﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
- */
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 
+// what this script do? Responsible for all the ANIMATION crap of the characters.
+
+// script placed on: pfCharacterBattle prefab
+// TWO scripts placed on the prefab. This one, and Character_Base.cs.
 public class CharacterBattle : MonoBehaviour {
 
     private Character_Base characterBase;
@@ -97,7 +89,6 @@ public class CharacterBattle : MonoBehaviour {
 
     public void Damage(CharacterBattle attacker, int damageAmount) {
         healthSystem.Damage(damageAmount);
-        //CodeMonkey.CMDebug.TextPopup("Hit " + healthSystem.GetHealthAmount(), GetPosition());
         Vector3 dirFromAttacker = (GetPosition() - attacker.GetPosition()).normalized;
 
         DamagePopup.Create(GetPosition(), damageAmount, false);
@@ -116,7 +107,12 @@ public class CharacterBattle : MonoBehaviour {
         return healthSystem.IsDead();
     }
 
+    // passed object to attack, and action to take after
+
+    // the script placed on CharacterBattle objs is:
     public void Attack(CharacterBattle targetCharacterBattle, Action onAttackComplete) {
+
+        // how is this a Vector3?
         Vector3 slideTargetPosition = targetCharacterBattle.GetPosition() + (GetPosition() - targetCharacterBattle.GetPosition()).normalized * 10f;
         Vector3 startingPosition = GetPosition();
 

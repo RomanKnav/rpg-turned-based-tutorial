@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// script put on empty BattleHandler object.
+// this script is PASSED the prefab instances of the player and enemy. 
 
 public class BattleHandler : MonoBehaviour {
 
@@ -12,11 +14,12 @@ public class BattleHandler : MonoBehaviour {
     }
 
     // wtf are CharacterBattle objs? the characters themselves
-    [SerializeField] private Transform pfCharacterBattle;     // contains instance of "pfCharacterBattle" prefab
+    [SerializeField] private Transform pfCharacterBattle;     // HERE'S WHERE WE PUT THE "pfCharacterBattle" PREFAB
     public Texture2D playerSpritesheet;
     public Texture2D enemySpritesheet;
 
-    private CharacterBattle playerCharacterBattle;
+    // how are these assigned?
+    private CharacterBattle playerCharacterBattle;             // these are PREFAB instances
     private CharacterBattle enemyCharacterBattle;
     private CharacterBattle activeCharacterBattle;
     private State state;
@@ -31,18 +34,24 @@ public class BattleHandler : MonoBehaviour {
     }
 
     private void Start() {
+        // this causes the characters to not be drawn UNTIL game is initiated:
         playerCharacterBattle = SpawnCharacter(true);
         enemyCharacterBattle = SpawnCharacter(false);
 
         SetActiveCharacterBattle(playerCharacterBattle);
-        state = State.WaitingForPlayer;
+
+        // initial character state:
+        state = State.WaitingForPlayer;     
     }
 
     private void Update() {
         if (state == State.WaitingForPlayer) {
             if (Input.GetKeyDown(KeyCode.Space)) {
+
                 // if space is pressed down, player is "busy" and initiates attack:
                 state = State.Busy;
+
+                // where's this "Attack" function from? in CharacterBattle.cs:
                 playerCharacterBattle.Attack(enemyCharacterBattle, () => {
                     ChooseNextActiveCharacter();
                 });
@@ -53,7 +62,7 @@ public class BattleHandler : MonoBehaviour {
     private CharacterBattle SpawnCharacter(bool isPlayerTeam) {
         Vector3 position;
         if (isPlayerTeam) {
-            position = new Vector3(-50, 0);     // positioned in relation to what?
+            position = new Vector3(-50, 0);     // positioned in relation to what? (drawn in vertical center)
         } else {
             position = new Vector3(+50, 0);
         }
