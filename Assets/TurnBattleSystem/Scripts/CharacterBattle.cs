@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;     // wtf is this??? in Assets/_/Stuff/CodeMonkey/Utils
 
-// what this script do? Responsible for all the ANIMATION crap of the characters.
+// what this script do? Responsible for all the ANIMATION and texture-setting crap of the characters.
 
-// script placed on: pfCharacterBattle prefab
+// script placed on: pfCharacterBattle prefab (ON PREFAB ITSELF)
 // TWO scripts placed on the prefab. This one, and Character_Base.cs.
 public class CharacterBattle : MonoBehaviour {
 
@@ -26,19 +26,24 @@ public class CharacterBattle : MonoBehaviour {
     }
 
     private void Awake() {
-        characterBase = GetComponent<Character_Base>();
+        characterBase = GetComponent<Character_Base>(); // this is a component??? yes, it's the fucking script!!!
+
         selectionCircleGameObject = transform.Find("SelectionCircle").gameObject;
         HideSelectionCircle();
         state = State.Idle;
     }
 
     private void Start() {
+        // Vector3's are for 3D games! why being used here?
+        characterBase.PlayAnimMove(new Vector3(1, 0));
     }
 
     public void Setup(bool isPlayerTeam) {
         this.isPlayerTeam = isPlayerTeam;
         if (isPlayerTeam) {
             characterBase.SetAnimsSwordTwoHandedBack();
+
+            // set the character's spritesheet!
             characterBase.GetMaterial().mainTexture = BattleHandler.GetInstance().playerSpritesheet;
         } else {
             characterBase.SetAnimsSwordShield();

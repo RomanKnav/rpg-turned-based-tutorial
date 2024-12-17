@@ -27,6 +27,7 @@ public class Character_Base : MonoBehaviour {
         UnitAnimType hitUnitAnim = UnitAnimType.GetUnitAnimType("dBareHands_Hit");
         attackUnitAnim = UnitAnimType.GetUnitAnimType("dBareHands_PunchQuickAttack");
 
+        // wtf is this?
         animatedWalker = new AnimatedWalker(unitAnimation, idleUnitAnim, walkUnitAnim, 1f, 1f);
     }
 
@@ -57,6 +58,7 @@ public class Character_Base : MonoBehaviour {
         materialTintColor = color;
     }
 
+    // simply plays walking animation.
     public void PlayAnimMove(Vector3 moveDir) {
         animatedWalker.SetMoveVector(moveDir);
     }
