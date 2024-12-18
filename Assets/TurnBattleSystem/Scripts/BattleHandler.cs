@@ -37,7 +37,7 @@ public class BattleHandler : MonoBehaviour {
     }
 
     // MY OWN CRAP:
-    // TODO: make a list of all the friendly character objects:
+    // 
     private static List<CharacterBattle> friendlies = new List<CharacterBattle>();
 
     private void Awake() {
@@ -46,13 +46,14 @@ public class BattleHandler : MonoBehaviour {
 
     private void Start() {
         // this causes the characters to not be drawn UNTIL game is initiated (fucking crazy):
-        playerCharacterBattle = SpawnCharacter(true);
-        playerCharacterBattle2 = SpawnCharacter(true);
+        playerCharacterBattle = SpawnCharacter(true, -10);
+        playerCharacterBattle2 = SpawnCharacter(true, +10);
 
         friendlies.Add(playerCharacterBattle);
         friendlies.Add(playerCharacterBattle2);
 
-        enemyCharacterBattle = SpawnCharacter(false);       // why this set to false?
+        // why this set to false? to set it as ENEMY:
+        enemyCharacterBattle = SpawnCharacter(false, 0);       
 
         SetActiveCharacterBattle(playerCharacterBattle);
 
@@ -75,23 +76,14 @@ public class BattleHandler : MonoBehaviour {
         }
     }
 
-    private CharacterBattle SpawnCharacter(bool isPlayerTeam) {
+    // REMEMBER: this used ONCE per character (returns one instance AT A TIME):
+    private CharacterBattle SpawnCharacter(bool isPlayerTeam, int vertPosition) {
         Vector3 position;
-        // if (isPlayerTeam) {
-        //     foreach(CharacterBattle character in friendlies)
-        //     {
-        //         // position = new Vector3(-50, 0);
-        //     }
-        // else
-        // {
-        //     position = new Vector3(+50, 0);
-        // }
-
 
         if (isPlayerTeam) {
-            position = new Vector3(-50, 0);     // positioned in relation to what? (drawn in vertical center)
+            position = new Vector3(-50, vertPosition);     // positioned in relation to what? (drawn in vertical center)
         } else {
-            position = new Vector3(+50, 0);
+            position = new Vector3(+50, vertPosition);
         }
 
         // this creates fucking CLONES:
