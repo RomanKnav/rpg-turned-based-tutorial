@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "rpg-turned-based-tutorial-master.sln"
+    "dotnet.defaultSolution": "turn-based-rpg.sln"
 }
