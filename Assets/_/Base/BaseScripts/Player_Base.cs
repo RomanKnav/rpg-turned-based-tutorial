@@ -91,12 +91,4 @@ public class Player_Base : MonoBehaviour {
     public void PlaySlidingAnimation(Vector3 dir) {
         unitAnimation.PlayAnimForced(UnitAnimType.GetUnitAnimType("Spiderman_Sliding"), dir, 1f, null, null, null);
     }
-
-    public Vector3 GetHandLPosition() {
-        return unitSkeleton.GetBodyPartPosition("HandL");
-    }
-
-    public Vector3 GetHandRPosition() {
-        return unitSkeleton.GetBodyPartPosition("HandR");
-    }  
 }

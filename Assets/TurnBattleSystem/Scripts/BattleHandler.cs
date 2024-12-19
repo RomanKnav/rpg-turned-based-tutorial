@@ -133,11 +133,11 @@ public class BattleHandler : MonoBehaviour {
         }
 
         // TODO:
-        // DrawActiveCircle(allCharacters[currIndex]);
-        // if (activeCharacter == playerCharacter || activeCharacter == playerCharacter2)
-        // {
-        //     state = State.Busy;
-        // }
+        DrawActiveCircle(allCharacters[currIndex]);
+        if (activeCharacter == playerCharacter || activeCharacter == playerCharacter2)
+        {
+            state = State.Busy;
+        }
 
         // allCharacters is a list of pfCharacter CLONES (instances)
 
@@ -168,7 +168,7 @@ public class BattleHandler : MonoBehaviour {
 
     // crazy ass way of assigning a bool (determines who won):
     private bool BattleOver() {
-        if (playerCharacter.IsDead() && playerCharacter2.IsDead()) {
+        if (playerCharacter.IsDead()) {
             // Player dead, enemy wins
             //CodeMonkey.CMDebug.TextPopupMouse("Enemy Wins!");
             BattleOverWindow.Show_Static("Enemy Wins!");

@@ -41,12 +41,15 @@ public class Character : MonoBehaviour {
     public void Setup(bool isPlayerTeam) {
         this.isPlayerTeam = isPlayerTeam;
         if (isPlayerTeam) {
+            // this animation basically just puts the sword on their back when idle:
             characterBase.SetAnimsSwordTwoHandedBack();
 
             // set the character's spritesheet!
             characterBase.GetMaterial().mainTexture = BattleHandler.GetInstance().playerSpritesheet;
         } else {
-            characterBase.SetAnimsSwordShield();
+            // set shield animation for enemy:
+            // characterBase.SetAnimsSwordShield();
+            characterBase.SetAnimsSwordTwoHandedBack();
             characterBase.GetMaterial().mainTexture = BattleHandler.GetInstance().enemySpritesheet;
         }
         healthSystem = new HealthSystem(100);

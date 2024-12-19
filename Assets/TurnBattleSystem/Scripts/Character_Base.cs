@@ -105,12 +105,4 @@ public class Character_Base : MonoBehaviour {
         animatedWalker.SetAnimations(UnitAnimType.GetUnitAnimType("dSwordShield_Idle"), UnitAnimType.GetUnitAnimType("dSwordShield_Walk"), 1f, 1f);
         attackUnitAnim = UnitAnimType.GetUnitAnimType("dSwordShield_Attack");
     }
-
-    public Vector3 GetHandLPosition() {
-        return unitSkeleton.GetBodyPartPosition("HandL");
-    }
-
-    public Vector3 GetHandRPosition() {
-        return unitSkeleton.GetBodyPartPosition("HandR");
-    }  
 }
