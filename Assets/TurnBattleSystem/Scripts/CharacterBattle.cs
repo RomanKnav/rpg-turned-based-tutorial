@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;     // wtf is this??? in Assets/_/Stuff/CodeMonkey/Utils
 
-// what this script do? Responsible for all the ANIMATION and texture-setting crap of the characters.
+// what this script do? Responsible for all the ANIMATION and texture-setting of the characters.
 
 // script placed on: pfCharacterBattle prefab (ON PREFAB ITSELF)
 // TWO scripts placed on the prefab. This one, and Character_Base.cs.
@@ -26,7 +26,7 @@ public class CharacterBattle : MonoBehaviour {
     }
 
     private void Awake() {
-        characterBase = GetComponent<Character_Base>(); // this is a component??? yes, it's the fucking script!!!
+        characterBase = GetComponent<Character_Base>(); // this is a component??? yes, it's the script!!!
 
         selectionCircleGameObject = transform.Find("SelectionCircle").gameObject;
         HideSelectionCircle();
@@ -35,7 +35,7 @@ public class CharacterBattle : MonoBehaviour {
 
     private void Start() {
         // Vector3's are for 3D games! why being used here?
-        characterBase.PlayAnimMove(new Vector3(1, 0));
+        // characterBase.PlayAnimMove(new Vector3(1, 0));
     }
 
     public void Setup(bool isPlayerTeam) {
@@ -114,6 +114,7 @@ public class CharacterBattle : MonoBehaviour {
     // passed object to attack, and action to take after
 
     // the script placed on CharacterBattle objs is:
+    // targetCharacterBattle is a CharacterBattle obj, and onAttackComplete is a callback after done
     public void Attack(CharacterBattle targetCharacterBattle, Action onAttackComplete) {
 
         // how is this a Vector3?
@@ -135,6 +136,8 @@ public class CharacterBattle : MonoBehaviour {
                     // Slide back completed, back to idle
                     state = State.Idle;
                     characterBase.PlayAnimIdle(attackDir);
+
+                    // the only code that runs the callback:
                     onAttackComplete();
                 });
             });

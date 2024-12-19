@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BattleHandler : MonoBehaviour {
 
-    // what are static instances? MAKES IT A FUCKING SINGLETON!!!!!
+    // what are static instances? MAKES IT A SINGLETON!!!!!
     // a single, globally accessible object created from a class with static members (variables and methods)
     private static BattleHandler instance;
 
@@ -18,14 +18,13 @@ public class BattleHandler : MonoBehaviour {
     // wtf are CharacterBattle objs? the characters themselves
     [SerializeField] private Transform pfCharacterBattle;     // HERE'S WHERE WE PUT THE "pfCharacterBattle" PREFAB
 
-    // shit not even used in here. Used in CharacterBattle:
+    // not even used in here. Used in CharacterBattle:
     public Texture2D playerSpritesheet;
     public Texture2D enemySpritesheet;
 
     // how are these assigned? via SpawnCharacter():
     private CharacterBattle playerCharacterBattle;             // these are PREFAB instances
     private CharacterBattle playerCharacterBattle2;
-
 
     private CharacterBattle enemyCharacterBattle;
     private CharacterBattle activeCharacterBattle;          // what determines current character
@@ -36,8 +35,7 @@ public class BattleHandler : MonoBehaviour {
         Busy,
     }
 
-    // MY OWN CRAP:
-    // 
+    // MY OWN STUFF:
     private static List<CharacterBattle> friendlies = new List<CharacterBattle>();
 
     private void Awake() {
@@ -45,7 +43,7 @@ public class BattleHandler : MonoBehaviour {
     }
 
     private void Start() {
-        // this causes the characters to not be drawn UNTIL game is initiated (fucking crazy):
+        // this causes the characters to not be drawn UNTIL game is initiated (crazy):
         playerCharacterBattle = SpawnCharacter(true, -10);
         playerCharacterBattle2 = SpawnCharacter(true, +10);
 
@@ -86,7 +84,7 @@ public class BattleHandler : MonoBehaviour {
             position = new Vector3(+50, vertPosition);
         }
 
-        // this creates fucking CLONES:
+        // this creates CLONES:
         Transform characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);    
 
         // this component is a SCRIPT: 
@@ -106,16 +104,19 @@ public class BattleHandler : MonoBehaviour {
     }
 
     private void ChooseNextActiveCharacter() {
-        if (TestBattleOver()) {
+        if (BattleOver()) {
             return;
         }
 
+        // if player is currently active, switch it to the enemy:
         if (activeCharacterBattle == playerCharacterBattle) {
             SetActiveCharacterBattle(enemyCharacterBattle);
             state = State.Busy;
             
+            // where is Attack function defined? in CharacterBattle.cs:
             enemyCharacterBattle.Attack(playerCharacterBattle, () => {
-                ChooseNextActiveCharacter();        // AAHHHH RECURSION
+                ChooseNextActiveCharacter();        
+                // AAHHHH RECURSION
             });
         }
         else if (activeCharacterBattle == playerCharacterBattle2) {
@@ -132,7 +133,8 @@ public class BattleHandler : MonoBehaviour {
         }
     }
 
-    private bool TestBattleOver() {
+    // crazy ass way of assigning a bool (determines who won):
+    private bool BattleOver() {
         if (playerCharacterBattle.IsDead() && playerCharacterBattle2.IsDead()) {
             // Player dead, enemy wins
             //CodeMonkey.CMDebug.TextPopupMouse("Enemy Wins!");

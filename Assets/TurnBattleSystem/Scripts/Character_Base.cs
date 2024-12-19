@@ -3,7 +3,7 @@ using UnityEngine;
 using V_AnimationSystem;
 using CodeMonkey.Utils;
 
-// what this script do? Responsible for all the ANIMATION crap of the characters.
+// what this script do? Responsible for all the ANIMATION stuff of the characters.
 
 // this script put on the pfCharacterBattle prefab TWICE:
 public class Character_Base : MonoBehaviour {
