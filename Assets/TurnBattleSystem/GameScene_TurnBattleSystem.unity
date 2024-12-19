@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733f7e09fcafc964f89f8a2c75a729d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pfCharacterBattle: {fileID: 7721603974982762705, guid: f1f57204e3c9d3b4d8de220bf844658e, type: 3}
+  pfCharacter: {fileID: 7721603974982762705, guid: f1f57204e3c9d3b4d8de220bf844658e, type: 3}
   playerSpritesheet: {fileID: 2800000, guid: 99b898971bb2a6d418d5e738489c3fbe, type: 3}
   enemySpritesheet: {fileID: 2800000, guid: 485aac2909f59d141a657b9a29ddf608, type: 3}
 --- !u!4 &622812125

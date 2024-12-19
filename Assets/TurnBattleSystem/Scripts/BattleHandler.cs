@@ -15,19 +15,19 @@ public class BattleHandler : MonoBehaviour {
         return instance;
     }
 
-    // wtf are CharacterBattle objs? the characters themselves
-    [SerializeField] private Transform pfCharacterBattle;     // HERE'S WHERE WE PUT THE "pfCharacterBattle" PREFAB
+    // wtf are Character objs? the characters themselves
+    [SerializeField] private Transform pfCharacter;     // HERE'S WHERE WE PUT THE "pfCharacter" PREFAB
 
-    // not even used in here. Used in CharacterBattle:
+    // not even used in here. Used in Character:
     public Texture2D playerSpritesheet;
     public Texture2D enemySpritesheet;
 
     // how are these assigned? via SpawnCharacter():
-    private CharacterBattle playerCharacterBattle;             // these are PREFAB instances
-    private CharacterBattle playerCharacterBattle2;
+    private Character playerCharacter;             // these are PREFAB instances
+    private Character playerCharacter2;
 
-    private CharacterBattle enemyCharacterBattle;
-    private CharacterBattle activeCharacterBattle;          // what determines current character
+    private Character enemyCharacter;
+    private Character activeCharacter;          // what determines current character
     private State state;
 
     private enum State {
@@ -36,7 +36,7 @@ public class BattleHandler : MonoBehaviour {
     }
 
     // MY OWN STUFF:
-    private static List<CharacterBattle> friendlies = new List<CharacterBattle>();
+    private static List<Character> friendlies = new List<Character>();
 
     private void Awake() {
         instance = this;
@@ -44,16 +44,16 @@ public class BattleHandler : MonoBehaviour {
 
     private void Start() {
         // this causes the characters to not be drawn UNTIL game is initiated (crazy):
-        playerCharacterBattle = SpawnCharacter(true, -10);
-        playerCharacterBattle2 = SpawnCharacter(true, +10);
+        playerCharacter = SpawnCharacter(true, -10);
+        playerCharacter2 = SpawnCharacter(true, +10);
 
-        friendlies.Add(playerCharacterBattle);
-        friendlies.Add(playerCharacterBattle2);
+        friendlies.Add(playerCharacter);
+        friendlies.Add(playerCharacter2);
 
         // why this set to false? to set it as ENEMY:
-        enemyCharacterBattle = SpawnCharacter(false, 0);       
+        enemyCharacter = SpawnCharacter(false, 0);       
 
-        SetActiveCharacterBattle(playerCharacterBattle);
+        SetActiveCharacter(playerCharacter);
 
         // initial character state:
         state = State.WaitingForPlayer;     
@@ -66,8 +66,8 @@ public class BattleHandler : MonoBehaviour {
                 // if space is pressed down, player is "busy" and initiates attack:
                 state = State.Busy;
 
-                // where's this "Attack" function from? in CharacterBattle.cs:
-                playerCharacterBattle.Attack(enemyCharacterBattle, () => {
+                // where's this "Attack" function from? in Character.cs:
+                playerCharacter.Attack(enemyCharacter, () => {
                     ChooseNextActiveCharacter();
                 });
             }
@@ -75,7 +75,7 @@ public class BattleHandler : MonoBehaviour {
     }
 
     // REMEMBER: this used ONCE per character (returns one instance AT A TIME):
-    private CharacterBattle SpawnCharacter(bool isPlayerTeam, int vertPosition) {
+    private Character SpawnCharacter(bool isPlayerTeam, int vertPosition) {
         Vector3 position;
 
         if (isPlayerTeam) {
@@ -85,22 +85,22 @@ public class BattleHandler : MonoBehaviour {
         }
 
         // this creates CLONES:
-        Transform characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);    
+        Transform characterTransform = Instantiate(pfCharacter, position, Quaternion.identity);    
 
         // this component is a SCRIPT: 
-        CharacterBattle characterBattle = characterTransform.GetComponent<CharacterBattle>();
-        characterBattle.Setup(isPlayerTeam);
+        Character character = characterTransform.GetComponent<Character>();
+        character.Setup(isPlayerTeam);
 
-        return characterBattle;
+        return character;
     }
 
-    private void SetActiveCharacterBattle(CharacterBattle characterBattle) {
-        if (activeCharacterBattle != null) {
-            activeCharacterBattle.HideSelectionCircle();
+    private void SetActiveCharacter(Character character) {
+        if (activeCharacter != null) {
+            activeCharacter.HideSelectionCircle();
         }
 
-        activeCharacterBattle = characterBattle;
-        activeCharacterBattle.ShowSelectionCircle();
+        activeCharacter = character;
+        activeCharacter.ShowSelectionCircle();
     }
 
     private void ChooseNextActiveCharacter() {
@@ -109,39 +109,39 @@ public class BattleHandler : MonoBehaviour {
         }
 
         // if player is currently active, switch it to the enemy:
-        if (activeCharacterBattle == playerCharacterBattle) {
-            SetActiveCharacterBattle(enemyCharacterBattle);
+        if (activeCharacter == playerCharacter) {
+            SetActiveCharacter(enemyCharacter);
             state = State.Busy;
             
-            // where is Attack function defined? in CharacterBattle.cs:
-            enemyCharacterBattle.Attack(playerCharacterBattle, () => {
+            // where is Attack function defined? in Character.cs:
+            enemyCharacter.Attack(playerCharacter, () => {
                 ChooseNextActiveCharacter();        
                 // AAHHHH RECURSION
             });
         }
-        else if (activeCharacterBattle == playerCharacterBattle2) {
-            SetActiveCharacterBattle(enemyCharacterBattle);
+        else if (activeCharacter == playerCharacter2) {
+            SetActiveCharacter(enemyCharacter);
             state = State.Busy;
 
-            enemyCharacterBattle.Attack(playerCharacterBattle2, () => {
+            enemyCharacter.Attack(playerCharacter2, () => {
                 ChooseNextActiveCharacter();
             });
 
         } else {
-            SetActiveCharacterBattle(playerCharacterBattle);
+            SetActiveCharacter(playerCharacter);
             state = State.WaitingForPlayer;
         }
     }
 
     // crazy ass way of assigning a bool (determines who won):
     private bool BattleOver() {
-        if (playerCharacterBattle.IsDead() && playerCharacterBattle2.IsDead()) {
+        if (playerCharacter.IsDead() && playerCharacter2.IsDead()) {
             // Player dead, enemy wins
             //CodeMonkey.CMDebug.TextPopupMouse("Enemy Wins!");
             BattleOverWindow.Show_Static("Enemy Wins!");
             return true;
         }
-        if (enemyCharacterBattle.IsDead()) {
+        if (enemyCharacter.IsDead()) {
             // Enemy dead, player wins
             //CodeMonkey.CMDebug.TextPopupMouse("Player Wins!");
             BattleOverWindow.Show_Static("Player Wins!");

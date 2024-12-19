@@ -6,9 +6,9 @@ using CodeMonkey.Utils;     // wtf is this??? in Assets/_/Stuff/CodeMonkey/Utils
 
 // what this script do? Responsible for all the ANIMATION and texture-setting of the characters.
 
-// script placed on: pfCharacterBattle prefab (ON PREFAB ITSELF)
+// script placed on: pfCharacter prefab (ON PREFAB ITSELF)
 // TWO scripts placed on the prefab. This one, and Character_Base.cs.
-public class CharacterBattle : MonoBehaviour {
+public class Character : MonoBehaviour {
 
     private Character_Base characterBase;
     private State state;
@@ -92,7 +92,7 @@ public class CharacterBattle : MonoBehaviour {
         return transform.position;
     }
 
-    public void Damage(CharacterBattle attacker, int damageAmount) {
+    public void Damage(Character attacker, int damageAmount) {
         healthSystem.Damage(damageAmount);
         Vector3 dirFromAttacker = (GetPosition() - attacker.GetPosition()).normalized;
 
@@ -113,23 +113,23 @@ public class CharacterBattle : MonoBehaviour {
 
     // passed object to attack, and action to take after
 
-    // the script placed on CharacterBattle objs is:
-    // targetCharacterBattle is a CharacterBattle obj, and onAttackComplete is a callback after done
-    public void Attack(CharacterBattle targetCharacterBattle, Action onAttackComplete) {
+    // the script placed on Character objs is:
+    // targetCharacter is a Character obj, and onAttackComplete is a callback after done
+    public void Attack(Character targetCharacter, Action onAttackComplete) {
 
         // how is this a Vector3?
-        Vector3 slideTargetPosition = targetCharacterBattle.GetPosition() + (GetPosition() - targetCharacterBattle.GetPosition()).normalized * 10f;
+        Vector3 slideTargetPosition = targetCharacter.GetPosition() + (GetPosition() - targetCharacter.GetPosition()).normalized * 10f;
         Vector3 startingPosition = GetPosition();
 
         // Slide to Target
         SlideToPosition(slideTargetPosition, () => {
             // Arrived at Target, attack him
             state = State.Busy;
-            Vector3 attackDir = (targetCharacterBattle.GetPosition() - GetPosition()).normalized;
+            Vector3 attackDir = (targetCharacter.GetPosition() - GetPosition()).normalized;
             characterBase.PlayAnimAttack(attackDir, () => {
                 // Target hit
                 int damageAmount = UnityEngine.Random.Range(20, 50);
-                targetCharacterBattle.Damage(this, damageAmount);
+                targetCharacter.Damage(this, damageAmount);
                 }, () => {
                 // Attack completed, slide back
                 SlideToPosition(startingPosition, () => {
