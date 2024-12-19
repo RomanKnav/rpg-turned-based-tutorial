@@ -4,6 +4,7 @@ using UnityEngine;
 
 // script put on empty BattleHandler object.
 // creates instances of a given prefab.
+// FUCK
 
 public class BattleHandler : MonoBehaviour {
 
@@ -27,7 +28,7 @@ public class BattleHandler : MonoBehaviour {
     private Character playerCharacter2;
 
     private Character enemyCharacter;
-    private Character activeCharacter;          // what determines current character
+    private Character activeCharacter;            // what determines current character
     private State state;
 
     // wtf does Busy state even mean? when a character is attacking
@@ -99,8 +100,10 @@ public class BattleHandler : MonoBehaviour {
         // this creates CLONES:
         Transform characterTransform = Instantiate(pfCharacter, position, Quaternion.identity);    
 
-        // this component is a SCRIPT: 
+        // this component is a SCRIPT (specifically, CharacterBattle): 
         Character character = characterTransform.GetComponent<Character>();
+
+        // CharacterBattle.Setup is responsible for: setting the correct animations 
         character.Setup(isPlayerTeam);
 
         return character;
